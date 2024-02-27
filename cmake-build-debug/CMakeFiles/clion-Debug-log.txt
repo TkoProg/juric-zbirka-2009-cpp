@@ -1,0 +1,4 @@
+/Users/tamiroladejo/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Users/tamiroladejo/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S "/Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009" -B "/Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009/cmake-build-debug"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009/cmake-build-debug

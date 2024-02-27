@@ -1,0 +1,3 @@
+/Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009/cmake-build-debug/CMakeFiles/Zbirka_Zadataka_Juric_PMF_2009.dir
+/Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/tamiroladejo/CLionProjects/Zbirka Zadataka Juric PMF 2009/cmake-build-debug/CMakeFiles/rebuild_cache.dir
