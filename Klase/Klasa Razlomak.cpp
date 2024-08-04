@@ -119,7 +119,7 @@ Razlomak &Razlomak::operator /=(const Razlomak &r) {
 
 ostream &operator <<(ostream &out, const Razlomak &r) {
     out << r.brojnik << "/" << r.nazivnik;
-    return cout;
+    return out;
 }
 
 istream &operator >>(istream &in, Razlomak &r) {
