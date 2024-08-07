@@ -98,7 +98,7 @@ int main() {
         satnica.Postavi(60,0,0);
         satnica.Prethodni();
         satnica.Ispisi();
-        Sat vrijeme(-5000);
+        Sat vrijeme(5000);
         vrijeme.Ispisi();
     }
     catch (const domain_error &e) {
