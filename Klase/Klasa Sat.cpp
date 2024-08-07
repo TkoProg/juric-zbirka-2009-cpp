@@ -36,8 +36,17 @@ Sat::Sat(int sati, int minute, int sekunde) : sati(sati), minute(minute), sekund
     }
 }
 
-Sat::Sat(int sekunde) : sekunde(sekunde) {
-
+Sat::Sat(int sekunde) {
+    double p_sati, p_minute, p_sekunde;
+    if (sekunde < 0) {
+        throw domain_error("Sekunde ne mogu biti negativne!");
+    }
+    p_sati = double(sekunde) / 3600;
+    sati = floor(p_sati);
+    p_minute = (p_sati - sati) * 60;
+    minute = floor(p_minute);
+    p_sekunde = (p_minute - minute) * 60;
+    this->sekunde = round(p_sekunde);
 }
 
 void Sat::Postavi(int sati, int minute, int sekunde) {
@@ -89,6 +98,8 @@ int main() {
         satnica.Postavi(60,0,0);
         satnica.Prethodni();
         satnica.Ispisi();
+        Sat vrijeme(-5000);
+        vrijeme.Ispisi();
     }
     catch (const domain_error &e) {
         cout<<e.what()<<endl;
