@@ -3,7 +3,7 @@
 using namespace std;
 
 enum Pravci {Sjever, Istok, Jug, Zapad};
-const char* pravci[4] {"sjever", "istok", "jug", "zapad"};
+const char *pravci[4] {"sjever", "istok", "jug", "zapad"};
 
 class Robot {
     int x;
