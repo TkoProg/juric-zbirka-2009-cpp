@@ -15,7 +15,7 @@ class Tim {
 public:
     explicit Tim(const char ime[]);
     void ObradiUtakmicu(int broj_datih, int broj_primljenih);
-    const char *ImeTime() const;
+    const char *ImeTima() const;
     int BrojPoena() const;
     int GolRazlika() const;
     void IspisiPodatke() const;
@@ -42,7 +42,7 @@ void Tim::ObradiUtakmicu(int broj_datih, int broj_primljenih) {
     this->broj_primljenih += broj_primljenih;
 }
 
-const char *Tim::ImeTime() const {
+const char *Tim::ImeTima() const {
     return ime;
 }
 
@@ -65,16 +65,94 @@ void Tim::IspisiPodatke() const {
     cout<<setw(4)<<right<<broj_poena;
 }
 
+class Liga {
+    int broj_timova;
+    const int max_br_timova;
+    Tim **timovi;
+
+    static bool Kriterij(Tim *tim1, Tim *tim2) {
+        if (tim1->BrojPoena() != tim2->BrojPoena())
+            return tim1->BrojPoena() > tim2->BrojPoena();
+        return tim1->GolRazlika() > tim2->GolRazlika();
+    }
+
+public:
+    explicit Liga(int velicina_lige);
+    ~Liga();
+    void DodajNoviTim(const char ime_tima[]);
+    void RegistrirajUtakmicu(const char tim1[], const char tim2[], int rezultat_1, int rezultat_2);
+    void IspisiTabelu();
+};
+
+Liga::Liga(int velicina_lige) : max_br_timova(velicina_lige), broj_timova(0) {
+    timovi = new Tim*[velicina_lige];
+}
+
+Liga::~Liga() {
+    for (int i = 0; i <= broj_timova; i++) {
+        delete [] timovi[i];
+    }
+    delete [] timovi;
+}
+
+void Liga::DodajNoviTim(const char *ime_tima) {
+    if (broj_timova >= max_br_timova) {
+        throw overflow_error("Liga je puna!");
+    }
+    timovi[broj_timova++] = new Tim(ime_tima);
+}
+
+void Liga::RegistrirajUtakmicu(const char *tim1, const char *tim2, int rezultat_1, int rezultat_2) {
+    bool check1 = false, check2 = false;
+    for(int i = 0; i < broj_timova; i++) {
+        if (strcmp(timovi[i]->ImeTima(), tim1) == 0) {
+            check1 = true;
+        }
+        if (strcmp(timovi[i]->ImeTima(), tim2) == 0) {
+            check2 = true;
+        }
+    }
+
+    if (!check1 or !check2) {
+        throw overflow_error("Jedan ili oba tima se ne nalaze u ligi!");
+    }
+
+    for(int i = 0; i < broj_timova; i++) {
+        if (strcmp(timovi[i]->ImeTima(), tim1) == 0) {
+            timovi[i]->ObradiUtakmicu(rezultat_1, rezultat_2);
+        }
+        if (strcmp(timovi[i]->ImeTima(), tim2) == 0) {
+            timovi[i]->ObradiUtakmicu(rezultat_2, rezultat_1);
+        }
+    }
+}
+
+void Liga::IspisiTabelu() {
+    sort(timovi, timovi + broj_timova, Kriterij);
+    for(int i = 0; i < broj_timova; i++) {
+        timovi[i]->IspisiPodatke();
+        cout<<endl;
+    }
+}
+
 int main() {
-    Tim sarajevo("FK Sarajevo");
-    sarajevo.ObradiUtakmicu(3, 3);
-    sarajevo.ObradiUtakmicu(5,2);
-    sarajevo.ObradiUtakmicu(1,0);
-    cout<<sarajevo.ImeTime();
-    cout<<endl;
-    cout<<sarajevo.GolRazlika();
-    cout<<endl;
-    cout<<sarajevo.BrojPoena();
-    cout<<endl;
-    sarajevo.IspisiPodatke();
+    try {
+        Liga sumska_liga(5);
+        sumska_liga.DodajNoviTim("Celik");
+        sumska_liga.DodajNoviTim("Jedinstvo");
+        sumska_liga.DodajNoviTim("Zeljeznicar");
+        sumska_liga.DodajNoviTim("Velez");
+        sumska_liga.DodajNoviTim("Sarajevo");
+        sumska_liga.RegistrirajUtakmicu("Celik", "Jedinstvo", 3, 2);
+        sumska_liga.RegistrirajUtakmicu("Zeljeznicar", "Velez", 2, 2);
+        sumska_liga.RegistrirajUtakmicu("Sarajevo", "Celik", 1, 4);
+        sumska_liga.RegistrirajUtakmicu("Velez", "Sarajevo", 2, 1);
+        sumska_liga.RegistrirajUtakmicu("Jedinstvo", "Sarajevo", 0, 2);
+        sumska_liga.RegistrirajUtakmicu("Celik", "Zeljeznicar", 1, 1);
+        sumska_liga.RegistrirajUtakmicu("Sarajevo", "Velez", 1, 1);
+        sumska_liga.IspisiTabelu();
+    }
+    catch (const overflow_error &e) {
+        cout<<e.what()<<endl;
+    }
 }
